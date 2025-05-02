@@ -13,14 +13,15 @@ Buildable
     Aspect
         Submesh
             Cable
-                Clockwise
-                Widdershins
+                Clockwise # List of transforms to attach a clockwise cable route.
+                Widdershins # List of transforms to attach a widdershins cable route.
             Pulley
                 Liftcable
-        MassEntity
-            Spline
-                SkiChair
-            TransformSet
+            SurfaceSpline # Signals the SurfaceSplinePrismSubsystem to render a Spline Prism along the landscape surface, following the Buildable's spline.
+        MassEntity # Flags an asset as spawning via MassEntity.
+            Spline # Flags an asset as spawning via MassEntity with spline-directed movement when completed. Most likely declared at the Buildable Actor level.
+                SkiChair # Spawns SkiChair entities, adhering to the ski chair boarding equation.
+            TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
     Domain
         Transport
             Vehicle
@@ -45,11 +46,11 @@ Buildable
                 Drive
                     Mounting
                         Detachable
-                        Fixed
+                        Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
                     Source
-                        Bullwheel
+                        Bullwheel # Large wheel used to drive a chair lift cable.
                         Cable
-                            Loop
+                            Loop # Vehicle's drive source is a cable that runs in a continuous loop.
                             Shuttle
             Station
                 Alighting

@@ -3,11 +3,6 @@
 // and emit UE_DECLARE_GAMEPLAY_TAG_EXTERN / UE_DEFINE_GAMEPLAY_TAG_COMMENT macros
 // into companion .h and .cpp files.
 //
-// Usage example (e.g. in an editor‑only build step):
-//     GameplayTagGenerator gen;
-//     gen.GenerateFromEnv("TAG_SOURCE_PATH", "ParsedGameplayTag");
-//
-// Written 2025‑05‑02
 
 #include <fstream>
 #include <iostream>
@@ -22,8 +17,8 @@ namespace fs = std::filesystem;
 
 struct TagNode
 {
-    std::string Name;                     // Raw token from the line (no whitespace)
-    std::string Comment;
+    std::string Name;                     // Tag name token
+    std::string Comment;                  // Raw comment text (optional)
     std::vector<TagNode*> Children;       // Child nodes
     TagNode* Parent = nullptr;            // Parent pointer for convenience
 };
@@ -80,7 +75,7 @@ private:
         Root->Name = ""; // Dummy root
 
         std::stack<std::pair<int, TagNode*>> indentStack; // pair<indentLevel, node>
-        indentStack.emplace( -1, Root.get() );
+        indentStack.push({ -1, Root.get() });
 
         std::string line;
         size_t lineNumber = 0;
@@ -91,12 +86,42 @@ private:
             if (!line.empty() && line.back() == '\r')
                 line.pop_back();
 
-            // Skip completely empty lines and comment lines starting with '#'
-            if (line.find_first_not_of(" \t") == std::string::npos || line[0] == '#')
+            // Handle UTF‑8 BOM on the very first line
+            if (lineNumber == 1 && line.rfind("\xEF\xBB\xBF", 0) == 0)
+                line.erase(0, 3);
+
+            // Skip completely empty lines
+            if (line.find_first_not_of(" \t") == std::string::npos)
                 continue;
 
             int indent = CountIndent(line);
-            std::string token = StripIndent(line);
+            std::string stripped = StripIndent(line);
+
+            // Ignore whole‑line comments beginning with '#'
+            if (!stripped.empty() && stripped[0] == '#')
+                continue;
+
+            // Split token and inline comment ("name   # comment")
+            std::string token;
+            std::string comment;
+            size_t hashPos = stripped.find('#');
+            if (hashPos != std::string::npos)
+            {
+                token   = stripped.substr(0, hashPos);
+                comment = stripped.substr(hashPos + 1); // no '#'
+
+                // Trim whitespace around pieces
+                Trim(token);
+                Trim(comment);
+            }
+            else
+            {
+                token = stripped;
+                Trim(token);
+            }
+
+            if (token.empty())
+                continue; // line was only a comment after indent
 
             // Move up the stack until we find parent with smaller indent
             while (!indentStack.empty() && indentStack.top().first >= indent)
@@ -109,9 +134,9 @@ private:
                 return false;
             }
             TagNode* parent = indentStack.top().second;
-            auto* node = new TagNode{ token,"", {}, parent };
+            auto* node = new TagNode{ token, comment, {}, parent };
             parent->Children.push_back(node);
-            indentStack.emplace( indent, node );
+            indentStack.emplace(indent, node);
         }
 
         return true;
@@ -138,12 +163,22 @@ private:
         return Line.substr(first == std::string::npos ? Line.size() : first);
     }
 
+    static void Trim(std::string& s)
+    {
+        size_t first = s.find_first_not_of(" \t");
+        size_t last  = s.find_last_not_of(" \t");
+        if (first == std::string::npos)
+            s.clear();
+        else
+            s = s.substr(first, last - first + 1);
+    }
+
     // ---------------------------------------------------------------------
     // Emission helpers
     bool EmitFiles(const fs::path& InputPath, const std::string& OutputUnit)
     {
-        fs::path headerPath  = InputPath.parent_path() / (InputPath.stem().string() + ".generated.h");
-        fs::path sourcePath  = InputPath.parent_path() / (InputPath.stem().string() + ".generated.cpp");
+        fs::path headerPath = InputPath.parent_path() / (InputPath.stem().string() + ".generated.h");
+        fs::path sourcePath = InputPath.parent_path() / (InputPath.stem().string() + ".generated.cpp");
 
         std::ofstream header(headerPath);
         std::ofstream source(sourcePath);
@@ -168,7 +203,32 @@ private:
         return true;
     }
 
-    void EmitNode(TagNode* Node, std::ofstream& Header, std::ofstream& Source, std::vector<std::string>& Segments);
+    void EmitNode(TagNode* Node, std::ofstream& Header, std::ofstream& Source, std::vector<std::string>& Segments)
+    {
+        if (Node != Root.get()) // Skip dummy root
+        {
+            Segments.push_back(Node->Name);
+            std::string underscoreName = Join(Segments, "_");
+            std::string dotName        = Join(Segments, ".");
+
+            Header << "UE_DECLARE_GAMEPLAY_TAG_EXTERN(" << underscoreName << ")\n";
+
+            // Escape double quotes in comments so we can safely embed them
+            std::string escapedComment = Node->Comment;
+            ReplaceAll(escapedComment, "\"", "\\\"");
+            Source << "UE_DEFINE_GAMEPLAY_TAG_COMMENT(" << underscoreName << ", \"" << dotName << "\", \"" << escapedComment << "\")\n";
+        }
+
+        for (auto* child : Node->Children)
+        {
+            EmitNode(child, Header, Source, Segments);
+        }
+
+        if (Node != Root.get())
+        {
+            Segments.pop_back();
+        }
+    }
 
     static std::string Join(const std::vector<std::string>& Parts, const char* Delim)
     {
@@ -181,35 +241,22 @@ private:
         return oss.str();
     }
 
+    static void ReplaceAll(std::string& str, const std::string& from, const std::string& to)
+    {
+        if (from.empty()) return;
+        size_t start = 0;
+        while ((start = str.find(from, start)) != std::string::npos)
+        {
+            str.replace(start, from.length(), to);
+            start += to.length();
+        }
+    }
+
 private:
     std::unique_ptr<TagNode> Root;
 };
 
-void GameplayTagGenerator::EmitNode(TagNode *Node, std::ofstream &Header, std::ofstream &Source,
-    std::vector<std::string> &Segments) {
-    if (Node != Root.get()) // Skip dummy root
-    {
-        Segments.push_back(Node->Name);
-        std::string underscoreName = Join(Segments, "_");
-        std::string dotName        = Join(Segments, ".");
-
-        Header << "UE_DECLARE_GAMEPLAY_TAG_EXTERN(" << underscoreName << ")\n";
-        Source << "UE_DEFINE_GAMEPLAY_TAG_COMMENT(" << underscoreName << ", \"" << dotName << "\", \"\")\n";
-    }
-
-    for (auto* child : Node->Children)
-    {
-        EmitNode(child, Header, Source, Segments);
-    }
-
-    if (Node != Root.get())
-    {
-        Segments.pop_back();
-    }
-}
-
 // Optional: simple command‑line entry point when building as a standalone tool
-// #ifdef GAMEPLAYTAGGEN_MAIN
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -224,4 +271,3 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
-// #endif
