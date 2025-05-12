@@ -4,10 +4,14 @@ project(FGameplayTagParser)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(FGameplayTagParser main.cpp
-        Components/gameplay_tag_generator.cpp
-        Components/gameplay_tag_generator.h
+        Components/gameplay_tag_tree_parser.cpp
+        Components/gameplay_tag_tree_parser.h
         Components/TagNode.h
         Components/tag_node_tree_visitor.cpp
         Components/tag_node_tree_visitor.h
+        Components/gameplay_tag_visitor.cpp
+        Components/gameplay_tag_visitor.h
+        Components/helpers.h
+        Components/helpers.cpp
 )
 

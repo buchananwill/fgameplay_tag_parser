@@ -7,7 +7,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "Components/gameplay_tag_generator.h"
+#include "Components/gameplay_tag_tree_parser.h"
+#include "Components/gameplay_tag_visitor.h"
 
 // Optional: simple command‑line entry point when building as a standalone tool
 int main(int argc, char *argv[]) {
@@ -15,8 +16,26 @@ int main(int argc, char *argv[]) {
 		std::cout << "Usage: GameplayTagGenerator <EnvVarName> [OutputUnit]" << std::endl;
 		return 1;
 	}
-	gameplay_tag_generator gen;
-	if (!gen.generate_from_env(argv[1], argc > 2 ? argv[2] : "")) {
+	gameplay_tag_tree_parser gen;
+
+	auto input_path = argv[1];
+
+	const char *pathCStr = std::getenv(input_path);
+	if (!pathCStr) {
+		std::cerr << "Environment variable " << input_path << " is not defined." << std::endl;
+		return 2;
+	}
+	fs::path inputPath(pathCStr);
+	if (!fs::exists(inputPath)) {
+		std::cerr << "Input file " << inputPath << " does not exist." << std::endl;
+		return 2;
+	}
+
+	std::string output_path = argc > 2 ? argv[2] : "";
+
+	gen.tree_visitors.emplace_back(std::make_unique<gameplay_tag_visitor>(gameplay_tag_visitor{inputPath, output_path}));
+
+	if (!gen.parse_from_file_path(inputPath)) {
 		return 2;
 	}
 	return 0;
