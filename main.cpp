@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "Components/GameplayTagGenerator.h"
+#include "Components/gameplay_tag_generator.h"
 
 // Optional: simple command‑line entry point when building as a standalone tool
 int main(int argc, char *argv[]) {
@@ -15,8 +15,8 @@ int main(int argc, char *argv[]) {
 		std::cout << "Usage: GameplayTagGenerator <EnvVarName> [OutputUnit]" << std::endl;
 		return 1;
 	}
-	GameplayTagGenerator gen;
-	if (!gen.GenerateFromEnv(argv[1], argc > 2 ? argv[2] : "")) {
+	gameplay_tag_generator gen;
+	if (!gen.generate_from_env(argv[1], argc > 2 ? argv[2] : "")) {
 		return 2;
 	}
 	return 0;

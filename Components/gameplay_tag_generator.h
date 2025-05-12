@@ -12,7 +12,7 @@
 
 namespace fs = std::filesystem;
 
-class GameplayTagGenerator {
+class gameplay_tag_generator {
 public:
 	/**
 	 * Parse the text file referenced by the environment variable and produce two code files next
@@ -26,26 +26,18 @@ public:
 	 *                   (optional) Defaults to the stem of the input file.
 	 * @return true if successful, false otherwise.
 	 */
-	bool GenerateFromEnv(const std::string &EnvVarName, const std::string &OutputUnit = "");
+	bool generate_from_env(const std::string &EnvVarName, const std::string &OutputUnit = "");
 
 private:
 	// ---------------------------------------------------------------------
 	// Parsing helpers
-	bool Parse(const fs::path &FilePath);
-
-	static int CountIndent(const std::string &Line);
-
-	static void Trim(std::string &s);
+	bool parse(const fs::path &FilePath);
 
 	// ---------------------------------------------------------------------
 	// Emission helpers
-	bool EmitFiles(const fs::path &InputPath, const std::string &OutputUnit);
+	bool emit_files(const fs::path &InputPath, const std::string &OutputUnit);
 
-	void EmitNode(std::shared_ptr<TagNode> Node, std::ofstream &Header, std::ofstream &Source, std::vector<std::string> &Segments);
-
-	static std::string Join(const std::vector<std::string> &Parts, const char *Delim);
-
-	static void ReplaceAll(std::string &str, const std::string &from, const std::string &to);
+	void emit_node(const std::shared_ptr<TagNode> &Node, std::ofstream &Header, std::ofstream &Source, std::vector<std::string> &Segments);
 
 	std::shared_ptr<TagNode> Root;
 };
