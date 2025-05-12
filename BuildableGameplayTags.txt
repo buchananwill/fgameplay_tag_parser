@@ -80,4 +80,6 @@ Buildable
         Service
         Utility
         Amenity
-    State
+    Status
+        Open # The Buildable is admitting guests.
+        Closed # The Buildable is not admitting guests.
