@@ -3,4 +3,9 @@ project(FGameplayTagParser)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(FGameplayTagParser main.cpp)
+add_executable(FGameplayTagParser main.cpp
+        Components/GameplayTagGenerator.cpp
+        Components/GameplayTagGenerator.h
+        Components/TagNode.h
+)
+
