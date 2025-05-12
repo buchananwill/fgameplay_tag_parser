@@ -13,5 +13,7 @@ add_executable(FGameplayTagParser main.cpp
         Components/gameplay_tag_visitor.h
         Components/helpers.h
         Components/helpers.cpp
+        Components/gameplay_tag_display_data.cpp
+        Components/gameplay_tag_display_data.h
 )
 
