@@ -1,85 +1,134 @@
-Buildable
-    Framework
-        Topology
-            Line
-            Loop
-            Polygon
-            Point
-        Placement
-            Internal
-            Waypoint
-            Midstation
-            Terminus
-    Aspect
-        Submesh
-            Cable
-                Clockwise # List of transforms to attach a clockwise cable route.
-                Widdershins # List of transforms to attach a widdershins cable route.
-            Pulley
-                Liftcable
-            SurfaceSpline # Signals the SurfaceSplinePrismSubsystem to render a Spline Prism along the landscape surface, following the Buildable's spline.
-        MassEntity # Flags an asset as spawning via MassEntity.
-            Spline # Flags an asset as spawning via MassEntity with spline-directed movement when completed. Most likely declared at the Buildable Actor level.
-                SkiChair # Spawns SkiChair entities, adhering to the ski chair boarding equation.
-            TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
-    Domain
-        Transport
-            Vehicle
-                Cabin
-                    Gondola
-                        Standing
-                    SkiChair
-                        Enclosed
-                Capacity
-                    Small
-                        2
-                        4
-                    Medium
-                        6
-                        8
-                    Large
-                        12
-                        16
-                        24
-                        32
-                        40
-                Drive
-                    Mounting
-                        Detachable
-                        Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
-                    Source
-                        Bullwheel # Large wheel used to drive a chair lift cable.
-                        Cable
-                            Loop # Vehicle's drive source is a cable that runs in a continuous loop.
-                            Shuttle
-            Station
-                Alighting
-                    Indoor
-                    Outdoor
-                Boarding
-                    Indoor
-                    Outdoor
-                        ConveyorBoard
-                        ConveyorIntake
-                        Static
-                Cableguide
-            Route
-                Surface
-                    Rail
-                    Road
-                    Piste
-                        Downhill
-                        Uphill
-                Aerial
-                    Cable
-                        Shuttle
-                        Loop
-                    Aeroplane
-        Accommodation
-        Trade
-        Service
-        Utility
-        Amenity
-    Status
-        Open # The Buildable is admitting guests.
-        Closed # The Buildable is not admitting guests.
+﻿Buildable
+	Framework
+		Topology
+			Line
+			Loop
+			Polygon
+			Point
+		Placement
+			Internal
+			Waypoint
+			Midstation
+			Terminus
+	Aspect
+		Submesh
+			Cable
+				Clockwise # List of transforms to attach a clockwise cable route.
+				Widdershins # List of transforms to attach a widdershins cable route.
+			Pulley
+				Liftcable
+			SurfaceSpline # Signals the SurfaceSplinePrismSubsystem to render a Spline Prism along the landscape surface, following the Buildable's spline.
+		MassEntity # Flags an asset as spawning via MassEntity.
+			Spline # Flags an asset as spawning via MassEntity with spline-directed movement when completed. Most likely declared at the Buildable Actor level.
+				SkiChair # Spawns SkiChair entities, adhering to the ski chair boarding equation.
+			TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
+	Domain
+		Transport
+			Vehicle
+				Cabin Type
+					Gondola
+					Ski Chair
+				Cabin Enclosure
+					Enclosed
+					Open
+				Capacity
+					Small
+						2
+						4
+					Medium
+						6
+						8
+					Large
+						12
+						16
+						24
+						32
+						40
+				Drive Source
+					Cable
+						Loop # Vehicle's drive source is a cable that runs in a continuous loop.
+							Detachable # Vehicle can have different cruising and boarding velocities.
+							Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
+						Shuttle
+				Seating
+					Wooden
+					Plastic
+					Padded
+					Unwettable
+			Station # Locations  where guests can board and alight vehicular transport.
+				Alighting
+					Indoor
+					Outdoor
+				Boarding
+					Indoor
+					Outdoor
+						Conveyor Board
+						Conveyor Intake
+						Static
+				Cableguide
+				Bullwheel # Large wheel used to drive a chair lift cable.
+			Route # Types of Transport Route
+				Surface
+					Rail
+					Road
+					Piste
+						Downhill
+						Uphill
+				Aerial
+					Cable
+						Shuttle
+						Loop
+					Aeroplane
+			TrafficFlow
+				One Way
+				Both Ways
+		Accommodation
+		Trade
+			Apparel
+				Light Adaptive Goggles
+				Anti Mist Goggles
+				Ski Helmets
+		Service
+		Utility
+		Amenity
+	Status
+		Open # The Buildable is admitting guests.
+		Closed # The Buildable is not admitting guests
+Technology
+	Substantive Innovation
+		Material Science
+			Natural Materials
+				Wood
+				Cotton
+			Metallurgy
+				Steel
+				Aluminium
+				Titanium
+			Plastics
+				Thermal Stability
+					Low Temperature Plasticity
+					Low Temperature Elasticity
+					Memory Foam
+				Synthetic Textiles
+					Waterproof Fabrics
+					Breathable Fabrics
+				Optical Polymers
+					Translucent Polymers
+					Polarizing Translucency
+					Reactive Translucency
+			Advanced Composites
+				Carbon fibre
+				Exotic Laminates
+		Technical Solutions
+			Detachable Cable Mount
+			Gated Boarding
+			Apparel
+				On Boot Snowboard Bindings
+				Quick Release Ski Bindings
+	Continuous Improvement
+		Unit Cost # Reduce the unit cost of this component
+		Unit Weight # Reduce the unloaded weight of each unit
+		Build Time # Reduce the build time
+		Attrition Rate # Reduce the rate at which this component becomes worn leading to replacement.
+		Load Bearing Capacity # Increase the load-bearing capacity of this component
+		Cruising Velocity # Increase the base cruising velocity of this vehicle

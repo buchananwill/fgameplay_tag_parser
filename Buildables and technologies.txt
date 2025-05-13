@@ -25,11 +25,12 @@ Buildable
     Domain
         Transport
             Vehicle
-                Cabin
+                Cabin Type
                     Gondola
-                        Enclosed
                     Ski Chair
-                        Enclosed
+                Cabin Enclosure
+                    Enclosed
+                    Open
                 Capacity
                     Small
                         2
@@ -43,15 +44,12 @@ Buildable
                         24
                         32
                         40
-                Drive
-                    Mounting
-                        Detachable
-                        Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
-                    Source
-                        Bullwheel # Large wheel used to drive a chair lift cable.
-                        Cable
-                            Loop # Vehicle's drive source is a cable that runs in a continuous loop.
-                            Shuttle
+                Drive Source
+                    Cable
+                        Loop # Vehicle's drive source is a cable that runs in a continuous loop.
+                            Detachable # Vehicle can have different cruising and boarding velocities.
+                            Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
+                        Shuttle
                 Seating
                     Wooden
                     Plastic
@@ -68,6 +66,7 @@ Buildable
                         Conveyor Intake
                         Static
                 Cableguide
+                Bullwheel # Large wheel used to drive a chair lift cable.
             Route # Types of Transport Route
                 Surface
                     Rail
@@ -115,14 +114,14 @@ Technology
                     Polarizing Translucency
                     Reactive Translucency
             Advanced Composites
-                Carbon Fibre
+                Carbon fibre
                 Exotic Laminates
         Technical Solutions
             Detachable Cable Mount
             Gated Boarding
             Apparel
-                On Boot Snowboard Bindings
-                Quick Release Ski Bindings
+                On-boot snowboard bindings
+                Quick release ski bindings
     Continuous Improvement
         Unit Cost # Reduce the unit cost of this component
         Unit Weight # Reduce the unloaded weight of each unit
