@@ -22,6 +22,7 @@ std::string helpers::strip_indent(const std::string &line) {
 }
 
 void helpers::clean(std::string &line, size_t lineNumber) {
+	replace_all(line, "\t", "    ");
 	strip_carriage_return(line);
 	strip_bom(line, lineNumber);
 }
