@@ -1,0 +1,13 @@
+﻿Behaviour
+	Travelling
+		DynamicBoarding
+		Running
+		Walking
+		Skiing
+		Cruising
+		Gliding
+		Skating
+	Stationary
+		Waiting
+		StaticBoarding
+		Queueing

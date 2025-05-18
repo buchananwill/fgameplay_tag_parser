@@ -1,0 +1,15 @@
+#include "BehaviourGameplayTags.h"
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour, "Behaviour", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling, "Behaviour.Travelling", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_DynamicBoarding, "Behaviour.Travelling.DynamicBoarding", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Running, "Behaviour.Travelling.Running", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Walking, "Behaviour.Travelling.Walking", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Skiing, "Behaviour.Travelling.Skiing", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Cruising, "Behaviour.Travelling.Cruising", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Gliding, "Behaviour.Travelling.Gliding", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Travelling_Skating, "Behaviour.Travelling.Skating", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Stationary, "Behaviour.Stationary", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Stationary_Waiting, "Behaviour.Stationary.Waiting", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Stationary_StaticBoarding, "Behaviour.Stationary.StaticBoarding", "")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Behaviour_Stationary_Queueing, "Behaviour.Stationary.Queueing", "")
