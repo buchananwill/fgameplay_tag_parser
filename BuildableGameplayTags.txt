@@ -21,11 +21,7 @@
 		MassEntity # Flags an asset as spawning via MassEntity.
 			Spline # Flags an asset as spawning via MassEntity with spline-directed movement when completed. Most likely declared at the Buildable Actor level.
 				SkiChair # Spawns SkiChair entities, adhering to the ski chair boarding equation.
-				Gondola # Spawns gondola entities.
 			TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
-			SplineDirection # Indicates movement around a spline loop
-				Clockwise
-				Widdershins
 	Domain
 		Transport
 			Vehicle
@@ -51,8 +47,8 @@
 				Drive Source
 					Cable
 						Loop # Vehicle's drive source is a cable that runs in a continuous loop.
-							Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
 							Detachable # Vehicle can have different cruising and boarding velocities.
+							Fixed # Vehicle's drive mechanism requires it to maintain a fixed speed along a spline.
 						Shuttle
 				Seating
 					Wooden
@@ -66,13 +62,11 @@
 				Boarding
 					Indoor
 					Outdoor
-						Conveyor
+						Conveyor Board
+						Conveyor Intake
 						Static
 				Cableguide
 				Bullwheel # Large wheel used to drive a chair lift cable.
-					Small
-					Medium
-					Large
 			Route # Types of Transport Route
 				Surface
 					Rail
@@ -84,11 +78,16 @@
 					Cable
 						Shuttle
 						Loop
-					Flight
+					Aeroplane
 			TrafficFlow
 				One Way
 				Both Ways
 		Accommodation
+			Comfort # Level of luxury provided by the accommodation
+			Privacy # How closely guests must interact with strangers.
+			Space # Size of each accommodation unit relative to its number of occupants.
+			Autonomy #  Whether accommodation includes catering and laundry facilities.
+			Capacity # The accommodation capacity supplied by this buildable.
 		Trade
 			Apparel
 				Light Adaptive Goggles
