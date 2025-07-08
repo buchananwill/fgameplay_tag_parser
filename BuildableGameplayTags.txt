@@ -83,10 +83,10 @@
 				One Way
 				Both Ways
 		Accommodation
-			Comfort $SupplierAttribute # Level of luxury provided by the accommodation
-			Privacy # How closely guests must interact with strangers.
-			Space # Size of each accommodation unit relative to its number of occupants.
-			Autonomy #  Whether accommodation includes catering and laundry facilities.
+			Privacy $SupplierAttribute # How closely guests must interact with strangers.
+			Space $SupplierAttribute # Size of each accommodation unit relative to its number of occupants.
+			Autonomy $SupplierAttribute #  Whether accommodation includes catering and laundry facilities.
+			Quietness $SupplierAttribute  # Whether theaccommodation is in a quiet neighbourhood.
 			Capacity # The accommodation capacity supplied by this buildable.
 		Trade
 			Apparel
@@ -95,7 +95,27 @@
 				Ski Helmets
 		Service
 		Utility
+			Warmth $SupplierAttribute
+			Safety $SupplierAttribute
+			Convenience $SupplierAttribute
+			Style $SupplierAttribute
+			Comfort $SupplierAttribute # Level of comfort provided by the any Supplier Product
 		Amenity
+			Recreation
+				Skiing
+					Beginner Pistes $SupplierAttribute
+					Intermediate Pistes $SupplierAttribute
+					Advanced Pistes $SupplierAttribute
+					Expert Pistes $SupplierAttribute
+				Live Music $SupplierAttribute
+				Swimming $SupplierAttribute
+				Ice Skating $SupplierAttribute
+				Tobogganing $SupplierAttribute
+			Comestibles
+				Dine In Food $SupplierAttribute
+				Takeaway Food $SupplierAtrtibute
+				Bar $SuppierAttribute
+				Cafe $SupplierAttribute
 	Status
 		Open # The Buildable is admitting guests.
 		Closed # The Buildable is not admitting guests

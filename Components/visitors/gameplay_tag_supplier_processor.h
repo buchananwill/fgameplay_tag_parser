@@ -17,6 +17,13 @@ public:
 
 protected:
 	void process_node(const TagNode &node) override;
+
+private:
+	fs::path header_dir;
+	fs::path cpp_dir;
+	std::string includes_buffer;
+	std::string if_attribute_branches_buffer;
+	std::string if_archetypes_branches_buffer;
 };
 
 #endif //GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H
