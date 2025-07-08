@@ -30,6 +30,7 @@ bool gameplay_tag_tree_parser::parse_from_file_path(const fs::path &FilePath) {
 
 
 bool gameplay_tag_tree_parser::parse(const fs::path &FilePath) {
+	using tag_node = std::shared_ptr<TagNode>;
 	std::ifstream in(FilePath);
 	if (!in) {
 		std::cerr << "Failed to open " << FilePath << std::endl;
@@ -40,7 +41,7 @@ bool gameplay_tag_tree_parser::parse(const fs::path &FilePath) {
 	root = std::make_shared<TagNode>();
 	root->Name = "";
 
-	std::stack<std::pair<int, std::shared_ptr<TagNode>>> indentStack; // pair<indentLevel, node>
+	std::stack<std::pair<int, tag_node>> indentStack;
 	indentStack.emplace(-1, root.get());
 
 	std::string line;
