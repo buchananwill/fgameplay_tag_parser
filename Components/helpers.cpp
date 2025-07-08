@@ -11,23 +11,23 @@ void helpers::strip_carriage_return(std::string& line) {
 		line.pop_back();
 }
 
-void helpers::strip_bom(std::string &line, size_t lineNumber) {
+void helpers::strip_bom(std::string& line, size_t lineNumber) {
 	if (lineNumber == 1 && line.rfind("\xEF\xBB\xBF", 0) == 0)
 		line.erase(0, 3);
 }
 
-std::string helpers::strip_indent(const std::string &line) {
+std::string helpers::strip_indent(const std::string& line) {
 	const size_t first = line.find_first_not_of(" \t");
 	return line.substr(first == std::string::npos ? line.size() : first);
 }
 
-void helpers::clean(std::string &line, size_t lineNumber) {
+void helpers::clean(std::string& line, const size_t lineNumber) {
 	replace_all(line, "\t", "    ");
 	strip_carriage_return(line);
 	strip_bom(line, lineNumber);
 }
 
-void helpers::remove_spaces(std::string &token) {
+void helpers::remove_spaces(std::string& token) {
 	std::vector<size_t> spaces;
 	for (int i = 0; i < token.size(); ++i) {
 		if (token[i] == ' ') {
@@ -40,16 +40,16 @@ void helpers::remove_spaces(std::string &token) {
 	}
 }
 
-void helpers::replace_all(std::string &str, const std::string &from, const std::string &to) {
-	if (from.empty()) return;
+void helpers::replace_all(std::string& str, const std::string& match_string, const std::string& replace_with) {
+	if (match_string.empty()) return;
 	size_t start = 0;
-	while ((start = str.find(from, start)) != std::string::npos) {
-		str.replace(start, from.length(), to);
-		start += to.length();
+	while ((start = str.find(match_string, start)) != std::string::npos) {
+		str.replace(start, match_string.length(), replace_with);
+		start += replace_with.length();
 	}
 }
 
-std::string helpers::join(const std::vector<std::string> &Parts, const char *Delim) {
+std::string helpers::join(const std::vector<std::string> &Parts, const char* Delim) {
 	std::ostringstream oss;
 	for (size_t i = 0; i < Parts.size(); ++i) {
 		if (i != 0) oss << Delim;
@@ -58,18 +58,18 @@ std::string helpers::join(const std::vector<std::string> &Parts, const char *Del
 	return oss.str();
 }
 
-void helpers::trim(std::string &s) {
-	size_t first = s.find_first_not_of(" \t");
-	size_t last = s.find_last_not_of(" \t");
+void helpers::trim(std::string& str) {
+	size_t first = str.find_first_not_of(" \t");
+	size_t last = str.find_last_not_of(" \t");
 	if (first == std::string::npos)
-		s.clear();
+		str.clear();
 	else
-		s = s.substr(first, last - first + 1);
+		str = str.substr(first, last - first + 1);
 }
 
-int helpers::count_indent(const std::string &Line) {
+int helpers::count_indent(const std::string& line) {
 	int count = 0;
-	for (char c: Line) {
+	for (char c: line) {
 		if (c == ' ')
 			++count;
 		else if (c == '\t')

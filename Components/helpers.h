@@ -18,13 +18,13 @@ namespace helpers {
 
 	void remove_spaces(std::string& token);
 
-	void replace_all(std::string &str, const std::string &from, const std::string &to);
+	void replace_all(std::string& str, const std::string& match_string, const std::string& replace_with);
 
-	std::string join(const std::vector<std::string> &Parts, const char *Delim);
+	std::string join(const std::vector<std::string>& Parts, const char* Delim);
 
-	void trim(std::string &s);
+	void trim(std::string& str);
 
-	int count_indent(const std::string &Line);
+	int count_indent(const std::string& line);
 }
 
 #endif //HELPERS_H
