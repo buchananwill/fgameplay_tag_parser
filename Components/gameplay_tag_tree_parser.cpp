@@ -36,8 +36,9 @@ bool gameplay_tag_tree_parser::parse(const fs::path &FilePath) {
 		return false;
 	}
 
-	root = std::make_unique<TagNode>();
-	root->Name = ""; // Dummy root
+	// Empty root
+	root = std::make_shared<TagNode>();
+	root->Name = "";
 
 	std::stack<std::pair<int, std::shared_ptr<TagNode>>> indentStack; // pair<indentLevel, node>
 	indentStack.emplace(-1, root.get());
