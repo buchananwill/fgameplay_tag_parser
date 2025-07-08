@@ -9,8 +9,8 @@
 
 #include "../helpers.h"
 
-bool gameplay_tag_display_data::visit_tree(std::shared_ptr<TagNode> root) {
-	fs::path csvPath = input_path.parent_path() / (input_path.stem().string() + ".csv");
+bool gameplay_tag_display_data::visit_tree(const std::shared_ptr<TagNode>& root) {
+	const fs::path csvPath = input_path.parent_path() / (input_path.stem().string() + ".csv");
 
 
 	csv = std::ofstream{csvPath};
@@ -29,7 +29,7 @@ bool gameplay_tag_display_data::visit_tree(std::shared_ptr<TagNode> root) {
 	return true;
 }
 
-void gameplay_tag_display_data::process_node(std::shared_ptr<TagNode> node) {
+void gameplay_tag_display_data::process_node(const TagNode &node) {
 	std::string row_name = helpers::join(segments, ".");
 
 	int num_namespace_segments = std::max(std::min(static_cast<int>(segments.size()-1), 3), 1);
@@ -41,7 +41,7 @@ void gameplay_tag_display_data::process_node(std::shared_ptr<TagNode> node) {
 
 	int num_literal_segments = std::min(static_cast<int>(segments.size()), 3);
 	std::vector<std::string> string_literal_segments;
-	for (int i = segments.size() - num_literal_segments; i < segments.size(); ++i) {
+	for (int i = static_cast<int>(segments.size()) - num_literal_segments; i < segments.size(); ++i) {
 		if (i >= 0) {
 			string_literal_segments.emplace_back(segments[i]);
 		}

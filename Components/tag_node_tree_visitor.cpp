@@ -4,21 +4,33 @@
 
 #include "tag_node_tree_visitor.h"
 
-bool tag_node_tree_visitor::visit_tree(const std::shared_ptr<TagNode> root) {
+#include <iostream>
+
+bool tag_node_tree_visitor::visit_tree(const std::shared_ptr<TagNode>& root) {
 	segments.clear();
+
+	if (!root) {
+		std::cout << "Root was null ptr!" << std::endl;
+		return false;
+	}
 
 	return visit_node(root, root);
 }
 
-bool tag_node_tree_visitor::visit_node(const std::shared_ptr<TagNode> &node, const std::shared_ptr<TagNode> &root) {
+bool tag_node_tree_visitor::visit_node(const std::shared_ptr<TagNode>& node, const std::shared_ptr<TagNode>& root) {
+	if (!node) {
+		return false;
+	}
 
 	if (node.get() != root.get()) {
 		segments.push_back(node->Name);
-		process_node(node);
+		process_node(*node);
 	}
 
 	for (auto &child: node->Children) {
-		visit_node(child, root);
+		if (!visit_node(child, root)) {
+			std::cout << "Null ptr found in tree!" << std::endl;
+		};
 	}
 
 	before_leaving_node(node, root);
@@ -26,7 +38,7 @@ bool tag_node_tree_visitor::visit_node(const std::shared_ptr<TagNode> &node, con
 	return true;
 }
 
-void tag_node_tree_visitor::before_leaving_node(std::shared_ptr<TagNode> node, std::shared_ptr<TagNode> root) {
+void tag_node_tree_visitor::before_leaving_node(const std::shared_ptr<TagNode>& node, const std::shared_ptr<TagNode>& root) {
 	if (node.get() != root.get()) {
 		segments.pop_back();
 	}

@@ -15,12 +15,12 @@ public:
 		: tag_node_tree_visitor(input_path, _output_unit) {
 	}
 
-	bool visit_tree(std::shared_ptr<TagNode> root) override;
+	bool visit_tree(const std::shared_ptr<TagNode>& root) override;
 
 protected:
 	std::ofstream csv;
 
-	void process_node(std::shared_ptr<TagNode> node) override;
+	void process_node(const TagNode &node) override;
 };
 
 

@@ -11,7 +11,7 @@
 #include "../helpers.h"
 
 
-bool gameplay_tag_visitor::visit_tree(std::shared_ptr<TagNode> root) {
+bool gameplay_tag_visitor::visit_tree(const std::shared_ptr<TagNode>& root) {
 	fs::path headerPath = input_path.parent_path() / (input_path.stem().string() + ".generated.h");
 	fs::path sourcePath = input_path.parent_path() / (input_path.stem().string() + ".generated.cpp");
 
@@ -35,14 +35,14 @@ bool gameplay_tag_visitor::visit_tree(std::shared_ptr<TagNode> root) {
 	return true;
 }
 
-void gameplay_tag_visitor::process_node(std::shared_ptr<TagNode> node) {
+void gameplay_tag_visitor::process_node(const TagNode &node) {
 	std::string underscoreName = helpers::join(segments, "_");
 	std::string dotName = helpers::join(segments, ".");
 
 	header << "UE_DECLARE_GAMEPLAY_TAG_EXTERN(" << underscoreName << ")\n";
 
 	// Escape double quotes in comments so we can safely embed them
-	std::string escapedComment = node->Comment;
+	std::string escapedComment = node.Comment;
 	helpers::replace_all(escapedComment, "\"", "\\\"");
 	source << "UE_DEFINE_GAMEPLAY_TAG_COMMENT(" << underscoreName << ", \"" << dotName << "\", \"" <<
 			escapedComment << "\")\n";

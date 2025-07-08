@@ -6,6 +6,7 @@
 #define TAG_NODE_TREE_VISITOR_H
 #include <memory>
 #include <filesystem>
+#include <utility>
 
 #include "TagNode.h"
 
@@ -17,15 +18,15 @@ class tag_node_tree_visitor {
 public:
 	virtual ~tag_node_tree_visitor() = default;
 
-	tag_node_tree_visitor(const fs::path &input_path, const std::string &_output_unit = "")
+	explicit tag_node_tree_visitor(const fs::path &input_path, std::string  _output_unit = "")
 		: input_path(input_path),
-		  output_unit(_output_unit) {
+		  output_unit(std::move(_output_unit)) {
 		if (output_unit.empty()) {
 			output_unit = input_path.stem().string();
 		}
 	}
 
-	virtual bool visit_tree(std::shared_ptr<TagNode> root);
+	virtual bool visit_tree(const std::shared_ptr<TagNode>& root);
 
 protected:
 	std::vector<std::string> segments;
@@ -33,8 +34,8 @@ protected:
 	std::string output_unit;
 
 	bool visit_node(const std::shared_ptr<TagNode> &node, const std::shared_ptr<TagNode> &root);
-	virtual void process_node(std::shared_ptr<TagNode> node) = 0;
-	virtual void before_leaving_node(std::shared_ptr<TagNode> node, std::shared_ptr<TagNode> root);
+	virtual void process_node(const TagNode &node) = 0;
+	virtual void before_leaving_node(const std::shared_ptr<TagNode>& node, const std::shared_ptr<TagNode>& root);
 
 
 };
