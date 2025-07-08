@@ -83,7 +83,7 @@
 				One Way
 				Both Ways
 		Accommodation
-			Comfort # Level of luxury provided by the accommodation
+			Comfort $SupplierAttribute # Level of luxury provided by the accommodation
 			Privacy # How closely guests must interact with strangers.
 			Space # Size of each accommodation unit relative to its number of occupants.
 			Autonomy #  Whether accommodation includes catering and laundry facilities.
