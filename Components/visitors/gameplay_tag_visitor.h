@@ -1,7 +1,3 @@
-//
-// Created by thele on 12/05/2025.
-//
-
 #ifndef GAMEPLAY_TAG_VISITOR_H
 #define GAMEPLAY_TAG_VISITOR_H
 #include "../tag_node_tree_visitor.h"
