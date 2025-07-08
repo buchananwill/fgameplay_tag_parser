@@ -12,6 +12,7 @@ struct TagNode {
 	std::string Comment; // Raw comment text (optional)
 	std::vector<std::shared_ptr<TagNode>> Children; // Child nodes
 	std::shared_ptr<TagNode> Parent = nullptr; // Parent pointer for convenience
+	std::vector<std::string> Flags;
 };
 
 #endif //TAGNODE_H

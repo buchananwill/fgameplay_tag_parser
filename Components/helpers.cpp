@@ -16,11 +16,6 @@ void helpers::strip_bom(std::string& line, size_t lineNumber) {
 		line.erase(0, 3);
 }
 
-std::string helpers::strip_indent(const std::string& line) {
-	const size_t first = line.find_first_not_of(" \t");
-	return line.substr(first == std::string::npos ? line.size() : first);
-}
-
 void helpers::clean(std::string& line, const size_t lineNumber) {
 	replace_all(line, "\t", "    ");
 	strip_carriage_return(line);
