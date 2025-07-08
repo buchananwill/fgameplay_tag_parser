@@ -7,9 +7,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "Components/gameplay_tag_display_data.h"
+#include "Components/visitors/gameplay_tag_display_data.h"
 #include "Components/gameplay_tag_tree_parser.h"
-#include "Components/gameplay_tag_visitor.h"
+#include "Components/visitors/gameplay_tag_visitor.h"
 
 // Optional: simple command‑line entry point when building as a standalone tool
 int main(int argc, char *argv[]) {

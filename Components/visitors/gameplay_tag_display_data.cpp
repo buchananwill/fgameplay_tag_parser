@@ -7,7 +7,7 @@
 #include <format>
 #include <iostream>
 
-#include "helpers.h"
+#include "../helpers.h"
 
 bool gameplay_tag_display_data::visit_tree(std::shared_ptr<TagNode> root) {
 	fs::path csvPath = input_path.parent_path() / (input_path.stem().string() + ".csv");

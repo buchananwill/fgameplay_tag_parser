@@ -9,11 +9,11 @@ add_executable(FGameplayTagParser main.cpp
         Components/TagNode.h
         Components/tag_node_tree_visitor.cpp
         Components/tag_node_tree_visitor.h
-        Components/gameplay_tag_visitor.cpp
-        Components/gameplay_tag_visitor.h
+        Components/visitors/gameplay_tag_visitor.cpp
+        Components/visitors/gameplay_tag_visitor.h
         Components/helpers.h
         Components/helpers.cpp
-        Components/gameplay_tag_display_data.cpp
-        Components/gameplay_tag_display_data.h
+        Components/visitors/gameplay_tag_display_data.cpp
+        Components/visitors/gameplay_tag_display_data.h
 )
 

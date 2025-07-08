@@ -6,7 +6,7 @@
 #define GAMEPLAY_TAG_DISPLAY_DATA_H
 #include <fstream>
 
-#include "tag_node_tree_visitor.h"
+#include "../tag_node_tree_visitor.h"
 
 
 class gameplay_tag_display_data : public tag_node_tree_visitor {
