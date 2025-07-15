@@ -14,7 +14,8 @@
 
 namespace fs = std::filesystem;
 
-inline constexpr std::format_string<const std::string&> fragments_template{R"(
+inline constexpr std::format_string<const std::string &> fragments_template{
+	R"(
 /*
 * This file is auto-generated and should not be edited.
 */
@@ -37,9 +38,11 @@ struct F{0}Archetypes : public FMassConstSharedFragment
 	GENERATED_BODY()
 	TArray<double> Weightings;
 }};
-)"};
+)"
+};
 
-inline constexpr std::format_string<const std::string&> header_template{R"(
+inline constexpr std::format_string<const std::string &> header_template{
+	R"(
 /*
 * This file is auto-generated and should not be edited.
 */
@@ -47,73 +50,100 @@ inline constexpr std::format_string<const std::string&> header_template{R"(
 #pragma once
 #include "EconomicSystem/SupplierFragments/SupplierUtilityMixin.h"
 #include "CoreMinimal.h"
+#include "MassSignalProcessorBase.h"
 #include "{0}Processor.generated.h"
 
 
 UCLASS()
-class PISTEPERFECT_API U{0}UtilityProcessor : public UMassProcessor
+class PISTEPERFECT_API U{0}UtilityProcessor : public UMassSignalProcessorBase
 {{
 	GENERATED_BODY()
 
 public:
-	explicit U{0}UtilityProcessor()
-		: EntityQuery(*this)
-	{{
-		bAutoRegisterWithProcessingPhases = true;
-		ExecutionFlags = static_cast<uint8>(EProcessorExecutionFlags::All);
-	}}
+	explicit U{0}UtilityProcessor();
 
+	virtual void Initialize(UObject& Owner) override;
 
 	virtual void ConfigureQueries() override;
 
-	virtual void Execute(FMassEntityManager& EntityManager, FMassExecutionContext& Context) override;
+protected:
+	virtual void SignalEntities(FMassEntityManager& EntityManager, FMassExecutionContext& Context,
+		FMassSignalNameLookup& EntitySignals) override;
 
 private:
 	FMassEntityQuery EntityQuery;
 }};
-)"};
+)"
+};
 
-inline constexpr std::format_string<const std::string&> cpp_template{R"(
+inline constexpr std::format_string<const std::string &> cpp_template{
+	R"(
 /*
 * This file is auto-generated and should not be edited.
 */
 
 #include "{0}Processor.h"
 #include "{0}Fragments.h"
+#include "MassSignalSubsystem.h"
+#include "Mass/Globals.h"
+#include "Mass/Signals.h"
+
+U{0}UtilityProcessor::U{0}UtilityProcessor(): EntityQuery(*this)
+{{
+	bAutoRegisterWithProcessingPhases = true;
+	ExecutionFlags = static_cast<uint8>(EProcessorExecutionFlags::AllWorldModes);
+	ExecutionOrder.ExecuteAfter.Add(Resort::Mass::ProcessorGroups::UtilityReset);
+	ExecutionOrder.ExecuteInGroup = Resort::Mass::ProcessorGroups::UtilityAccumulation;
+}}
 
 void U{0}UtilityProcessor::ConfigureQueries()
 {{
 	Resort::Mass::Economy::ConfigureQueries<F{0}Attribute, F{0}Archetypes>(EntityQuery);
 }}
 
-void U{0}UtilityProcessor::Execute(FMassEntityManager& EntityManager, FMassExecutionContext& Context)
+void U{0}UtilityProcessor::Initialize(UObject& Owner)
+{{
+	Super::Initialize(Owner);
+	UMassSignalSubsystem& SignalSubsystem = *UWorld::GetSubsystem<UMassSignalSubsystem>(Owner.GetWorld());
+	SubscribeToSignal(SignalSubsystem, Resort::Mass::Signals::ReComputeUtility);
+}}
+
+void U{0}UtilityProcessor::SignalEntities(FMassEntityManager& EntityManager, FMassExecutionContext& Context,
+	FMassSignalNameLookup& EntitySignals)
 {{
 	Resort::Mass::Economy::Execute<F{0}Attribute, F{0}Archetypes>(EntityManager, Context, EntityQuery);
 }}
 
-)"};
+)"
+};
 
-inline constexpr std::format_string<const std::string&> include_wrapper{R"(#include "{0}Fragments.h")"};
+inline constexpr std::format_string<const std::string &> include_wrapper{R"(#include "{0}Fragments.h")"};
 
-inline constexpr std::format_string<const std::string&, const std::string&> if_attribute_template{R"(
+inline constexpr std::format_string<const std::string &, const std::string &> if_attribute_template{
+	R"(
 		if (Tag == {0})
 		{{
 			Functor.template operator()<F{1}Attribute>();
 			return;
 		}}
 
-)"};
+)"
+};
 
-inline constexpr std::format_string<const std::string&, const std::string&> if_archetypes_template{R"(
+inline constexpr std::format_string<const std::string &, const std::string &> if_archetypes_template{
+	R"(
 		if (Tag == {0})
 		{{
 			Functor.template operator()<F{1}Archetypes>();
 			return;
 		}}
 
-)"};
+)"
+};
 
-inline constexpr std::format_string<std::string&, std::string&, std::string&> tag_to_fragment_dispatch{R"(
+inline constexpr std::format_string<const std::string &, const std::string &, const std::string &>
+tag_to_fragment_dispatch{
+	R"(
 /*
 * This file is auto-generated and should not be edited.
 */
@@ -149,7 +179,74 @@ namespace Resort::GameplayTag
 		}}
 	}}
 }}
-)"};
+)"
+};
+
+inline constexpr std::format_string<const std::string &> canonical_supplier_attributes{
+	R"(
+/*
+* This file is auto-generated and should not be edited.
+*/
+
+#pragma once
+#include "Buildables/BuildableGameplayTags.h"
+
+namespace Resort::Data
+{{
+	const TArray<FGameplayTag>& SupplierAttributeTagList();
+
+	inline const TArray<FGameplayTag>& SupplierAttributeTagList()
+	{{
+		static TArray<FGameplayTag> Tags = {{
+			{}
+		}};
+		return Tags;
+	}}
+
+}}
+
+
+)"
+};
+
+bool gameplay_tag_supplier_processor::conditionally_write_canonical_list() const {
+	if (canonical_list_buffer.empty()) {
+		return false;
+	}
+
+	auto canonical_list_file_path = header_dir / "SupplierAttributeTagList.h";
+
+	std::ofstream c_l_file(canonical_list_file_path);
+
+	if (!c_l_file) {
+		std::cout << "Couldn't open tag to dispatch file\n";
+		return true;
+	}
+
+	c_l_file << std::format(canonical_supplier_attributes, canonical_list_buffer);
+	c_l_file.close();
+	return false;
+}
+
+bool gameplay_tag_supplier_processor::conditionally_write_tag_to_dispatch() const {
+	if (includes_buffer.empty() || if_attribute_branches_buffer.empty()) {
+		return false;
+	}
+
+	auto tag_to_dispatch_file_path = header_dir / "TagToFragmentDispatch.h";
+
+	std::ofstream t_to_d_file(tag_to_dispatch_file_path);
+
+	if (!t_to_d_file) {
+		std::cout << "Couldn't open tag to dispatch file\n";
+		return true;
+	}
+
+	t_to_d_file << std::format(tag_to_fragment_dispatch, includes_buffer, if_attribute_branches_buffer,
+	                           if_archetypes_branches_buffer);
+	t_to_d_file.close();
+	return false;
+}
 
 bool gameplay_tag_supplier_processor::visit_tree(const std::shared_ptr<TagNode> &root) {
 	header_dir = input_path.parent_path() / "Public";
@@ -162,27 +259,18 @@ bool gameplay_tag_supplier_processor::visit_tree(const std::shared_ptr<TagNode> 
 		return false;
 	};
 
-	if (includes_buffer.empty() || if_attribute_branches_buffer.empty()) {
-		return true;
-	}
 
-	auto tag_to_dispatch_file_path = header_dir / "TagToFragmentDispatch.h";
+	conditionally_write_tag_to_dispatch();
 
-	std::ofstream t_to_d_file(tag_to_dispatch_file_path);
-
-	if (!t_to_d_file) {
-		std::cout << "Couldn't open tag to dispatch file\n";
-		return false;
-	}
-
-	t_to_d_file << std::format(tag_to_fragment_dispatch, includes_buffer, if_attribute_branches_buffer, if_archetypes_branches_buffer);
-	t_to_d_file.close();
+	conditionally_write_canonical_list();
 
 	return true;
 }
 
 void gameplay_tag_supplier_processor::process_node(const TagNode &node) {
-	if (!std::ranges::any_of(node.Flags, [](const std::string &flag) { return flag == visitor::flags::supplier_attribute; })) {
+	if (!std::ranges::any_of(node.Flags, [](const std::string &flag) {
+		return flag == visitor::flags::supplier_attribute;
+	})) {
 		return;
 	}
 
@@ -208,6 +296,11 @@ void gameplay_tag_supplier_processor::process_node(const TagNode &node) {
 
 		if_attribute_branches_buffer.append(std::format(if_attribute_template, underscore_name, node.Name));
 		if_archetypes_branches_buffer.append(std::format(if_archetypes_template, underscore_name, node.Name));
+
+		if (!canonical_list_buffer.empty()) {
+			canonical_list_buffer.append(",\n            ");
+		}
+		canonical_list_buffer.append(underscore_name);
 	}
 
 	fragments_file << std::format(fragments_template, node.Name);
@@ -216,6 +309,6 @@ void gameplay_tag_supplier_processor::process_node(const TagNode &node) {
 	header_file << std::format(header_template, node.Name);
 	header_file.close();
 
-	cpp_file <<  std::format(cpp_template, node.Name);
+	cpp_file << std::format(cpp_template, node.Name);
 	cpp_file.close();
 }

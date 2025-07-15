@@ -13,6 +13,8 @@ public:
 		: tag_node_tree_visitor(input_path, _output_unit) {
 	}
 
+
+
 	bool visit_tree(const std::shared_ptr<TagNode>& root) override;
 
 protected:
@@ -24,6 +26,10 @@ private:
 	std::string includes_buffer;
 	std::string if_attribute_branches_buffer;
 	std::string if_archetypes_branches_buffer;
+	std::string canonical_list_buffer;
+
+	bool conditionally_write_canonical_list() const;
+	bool conditionally_write_tag_to_dispatch() const;
 };
 
 #endif //GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H
