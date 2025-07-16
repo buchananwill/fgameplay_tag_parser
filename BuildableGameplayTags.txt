@@ -23,6 +23,7 @@
 				SkiChair # Spawns SkiChair entities, adhering to the ski chair boarding equation.
 				Gondola # Spawns Gondola entities
 			TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
+			Supplier # Participates in themarket economy as a Supplier.
 	Domain
 		Transport
 			Vehicle
