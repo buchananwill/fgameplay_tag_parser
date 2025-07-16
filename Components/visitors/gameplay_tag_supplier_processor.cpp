@@ -111,7 +111,7 @@ void U{0}UtilityProcessor::Initialize(UObject& Owner)
 void U{0}UtilityProcessor::SignalEntities(FMassEntityManager& EntityManager, FMassExecutionContext& Context,
 	FMassSignalNameLookup& EntitySignals)
 {{
-	Resort::Mass::Economy::Execute<F{0}Attribute, F{0}Archetypes>(EntityManager, Context, EntityQuery);
+	Resort::Mass::Economy::AccumulateAttributeIntoArchetypeUtility<F{0}Attribute, F{0}Archetypes>(EntityManager, Context, EntityQuery);
 }}
 
 )"
