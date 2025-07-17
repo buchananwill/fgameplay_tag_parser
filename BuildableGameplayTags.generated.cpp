@@ -25,6 +25,7 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Aspect_MassEntity_Spline, "Buildable.As
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Aspect_MassEntity_Spline_SkiChair, "Buildable.Aspect.MassEntity.Spline.SkiChair", "Spawns SkiChair entities, adhering to the ski chair boarding equation.")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Aspect_MassEntity_Spline_Gondola, "Buildable.Aspect.MassEntity.Spline.Gondola", "Spawns Gondola entities")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Aspect_MassEntity_TransformSet, "Buildable.Aspect.MassEntity.TransformSet", "Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Aspect_MassEntity_Supplier, "Buildable.Aspect.MassEntity.Supplier", "Participates in themarket economy as a Supplier.")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Domain, "Buildable.Domain", "")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Domain_Transport, "Buildable.Domain.Transport", "")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Buildable_Domain_Transport_Vehicle, "Buildable.Domain.Transport.Vehicle", "")
