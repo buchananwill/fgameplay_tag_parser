@@ -26,10 +26,12 @@ private:
 	std::string includes_buffer;
 	std::string if_attribute_branches_buffer;
 	std::string if_archetypes_branches_buffer;
-	std::string canonical_list_buffer;
+	std::string underscore_list_buffer;
+	std::string csv_buffer;
 
 	bool conditionally_write_canonical_list() const;
 	bool conditionally_write_tag_to_dispatch() const;
+	bool write_csv_template() const;
 };
 
 #endif //GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H

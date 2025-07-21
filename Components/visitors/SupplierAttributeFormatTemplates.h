@@ -202,6 +202,12 @@ namespace Resort::Data
 
 )"
 	};
+
+	inline constexpr std::format_string<const std::string &> weighting_csv_row{
+		R"csvrow({0},"(TagName=""{0}"")","0.000000")csvrow"
+	};
+
+	inline const std::string csv_header{"RowName,ProductAttributeTag,Weighting"};
 }
 
 #endif //SUPPLIERATTRIBUTEFORMATTEMPLATES_H
