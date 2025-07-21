@@ -25,6 +25,7 @@ Buildable.Aspect.MassEntity.Spline.SkiChair,"NSLOCTEXT(""Buildable_Aspect_MassEn
 Buildable.Aspect.MassEntity.Spline.Gondola,"NSLOCTEXT(""Buildable_Aspect_MassEntity"", ""Buildable.Aspect.MassEntity.Spline.Gondola"", ""MassEntity Spline Gondola"")","(TagName=""Buildable.Aspect.MassEntity.Spline.Gondola"")"
 Buildable.Aspect.MassEntity.TransformSet,"NSLOCTEXT(""Buildable_Aspect_MassEntity"", ""Buildable.Aspect.MassEntity.TransformSet"", ""Aspect MassEntity TransformSet"")","(TagName=""Buildable.Aspect.MassEntity.TransformSet"")"
 Buildable.Aspect.MassEntity.Supplier,"NSLOCTEXT(""Buildable_Aspect_MassEntity"", ""Buildable.Aspect.MassEntity.Supplier"", ""Aspect MassEntity Supplier"")","(TagName=""Buildable.Aspect.MassEntity.Supplier"")"
+Buildable.Aspect.NoMesh,"NSLOCTEXT(""Buildable_Aspect"", ""Buildable.Aspect.NoMesh"", ""Buildable Aspect NoMesh"")","(TagName=""Buildable.Aspect.NoMesh"")"
 Buildable.Domain,"NSLOCTEXT(""Buildable"", ""Buildable.Domain"", ""Buildable Domain"")","(TagName=""Buildable.Domain"")"
 Buildable.Domain.Transport,"NSLOCTEXT(""Buildable_Domain"", ""Buildable.Domain.Transport"", ""Buildable Domain Transport"")","(TagName=""Buildable.Domain.Transport"")"
 Buildable.Domain.Transport.Vehicle,"NSLOCTEXT(""Buildable_Domain_Transport"", ""Buildable.Domain.Transport.Vehicle"", ""Domain Transport Vehicle"")","(TagName=""Buildable.Domain.Transport.Vehicle"")"
