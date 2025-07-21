@@ -90,8 +90,6 @@ bool gameplay_tag_supplier_processor::visit_tree(const std::shared_ptr<TagNode> 
 
 	conditionally_write_canonical_list();
 
-	write_csv_template();
-
 	return true;
 }
 
