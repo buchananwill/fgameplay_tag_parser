@@ -94,7 +94,7 @@ bool gameplay_tag_supplier_processor::visit_tree(const std::shared_ptr<TagNode> 
 }
 
 void gameplay_tag_supplier_processor::process_node(const TagNode &node) {
-	if (!std::ranges::any_of(node.Flags, [](const std::string &flag) {
+	if (std::ranges::none_of(node.Flags, [](const std::string &flag) {
 		return flag == visitor::flags::supplier_attribute;
 	})) {
 		return;

@@ -7,6 +7,7 @@
 
 namespace visitor::flags {
 	constexpr auto supplier_attribute = "SupplierAttribute";
+	constexpr auto scalar_field = "ScalarField";
 }
 
 #endif //FLAGS_H
