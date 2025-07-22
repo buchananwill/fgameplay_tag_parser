@@ -12,7 +12,6 @@
 #include "../helpers.h"
 
 #include "ScalarFieldFormatTemplates.h"
-#include "SupplierAttributeFormatTemplates.h"
 
 using namespace Templates::ScalarField;
 
@@ -42,9 +41,9 @@ void gameplay_tag_scalar_field_accumulator::process_node(const TagNode &node) {
 		return;
 	}
 
-	auto fragments_file_path = header_dir / (node.Name + "Fragments.h");
-	auto header_file_path = header_dir / (node.Name + "Processor.h");
-	auto cpp_file_path = cpp_dir / (node.Name + "Processor.cpp");
+	auto fragments_file_path = header_dir / (node.Name + "ScalarFieldFragments.h");
+	auto header_file_path = header_dir / (node.Name + "FieldAccumulatorProcessor.h");
+	auto cpp_file_path = cpp_dir / (node.Name + "FieldAccumulatorProcessor.cpp");
 
 	std::ofstream fragments_file(fragments_file_path);
 	std::ofstream header_file(header_file_path);
@@ -87,7 +86,7 @@ bool gameplay_tag_scalar_field_accumulator::conditionally_write_canonical_list()
 		return false;
 	}
 
-	auto canonical_list_file_path = header_dir / "SupplierAttributeTagList.h";
+	auto canonical_list_file_path = header_dir / "ScalarFieldTagList.h";
 
 	std::ofstream c_l_file(canonical_list_file_path);
 
@@ -106,7 +105,7 @@ bool gameplay_tag_scalar_field_accumulator::conditionally_write_tag_to_dispatch(
 		return false;
 	}
 
-	const auto tag_to_dispatch_file_path = header_dir / "TagToFragmentDispatch.h";
+	const auto tag_to_dispatch_file_path = header_dir / "TagToScalarFieldFragmentDispatch.h";
 
 	std::ofstream t_to_d_file(tag_to_dispatch_file_path);
 

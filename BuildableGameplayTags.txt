@@ -109,14 +109,14 @@
 		Amenity
 			Recreation
 				Skiing
-					Beginner Pistes $SupplierAttribute
-					Intermediate Pistes $SupplierAttribute
-					Advanced Pistes $SupplierAttribute
-					Expert Pistes $SupplierAttribute
-				Live Music $SupplierAttribute
-				Swimming $SupplierAttribute
-				Ice Skating $SupplierAttribute
-				Tobogganing $SupplierAttribute
+					Beginner Pistes $SupplierAttribute $ScalarField
+					Intermediate Pistes $SupplierAttribute $ScalarField
+					Advanced Pistes $SupplierAttribute $ScalarField
+					Expert Pistes $SupplierAttribute $ScalarField
+				Live Music $SupplierAttribute $ScalarField
+				Swimming $SupplierAttribute $ScalarField
+				Ice Skating $SupplierAttribute $ScalarField
+				Tobogganing $SupplierAttribute $ScalarField
 			Comestibles
 				Dine In Food $SupplierAttribute
 				Takeaway Food $SupplierAtrtibute

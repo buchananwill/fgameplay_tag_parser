@@ -27,7 +27,7 @@ namespace {
 	}
 
 	void separate_flags(TagNode &node, std::string &token_and_optional_flags) {
-		auto next_flag = token_and_optional_flags.find('$');
+		auto next_flag = token_and_optional_flags.rfind('$');
 		while (next_flag != not_present) {
 			if (next_flag + 1 < token_and_optional_flags.length()) {
 				auto flag_string = token_and_optional_flags.substr(next_flag + 1);
@@ -39,7 +39,7 @@ namespace {
 			}
 
 			token_and_optional_flags = token_and_optional_flags.substr(0, next_flag);
-			next_flag = token_and_optional_flags.find('$');
+			next_flag = token_and_optional_flags.rfind('$');
 		}
 	}
 

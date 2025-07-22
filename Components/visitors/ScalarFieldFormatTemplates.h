@@ -42,7 +42,7 @@ struct F{0}FieldEmitters : public FScalarFieldEmitterSharedFragment
 #pragma once
 #include "CoreMinimal.h"
 #include "MassSignalProcessorBase.h"
-#include "{0}Processor.generated.h"
+#include "{0}FieldAccumulatorProcessor.generated.h"
 
 
 UCLASS()
@@ -89,7 +89,7 @@ U{0}FieldAccumulatorProcessor::U{0}FieldAccumulatorProcessor(): EntityQuery(*thi
 
 void U{0}FieldAccumulatorProcessor::ConfigureQueries()
 {{
-	Resort::Mass::Economy::ConfigureAccumulationQuery<FExampleScalarFieldEmitters, FExampleScalarField>(EntityQuery);
+	Resort::Mass::Economy::ConfigureAccumulationQuery<F{0}FieldEmitters, F{0}Accumulator>(EntityQuery);
 }}
 
 void U{0}FieldAccumulatorProcessor::Initialize(UObject& Owner)
@@ -102,7 +102,7 @@ void U{0}FieldAccumulatorProcessor::Initialize(UObject& Owner)
 void U{0}FieldAccumulatorProcessor::SignalEntities(FMassEntityManager& EntityManager, FMassExecutionContext& Context,
 	FMassSignalNameLookup& EntitySignals)
 {{
-	Resort::Mass::Economy::AccumulateField<FExampleScalarFieldEmitters, FExampleScalarField>(EntityManager, Context, EntityQuery);
+	Resort::Mass::Economy::AccumulateField<F{0}FieldEmitters, F{0}Accumulator>(EntityManager, Context, EntityQuery);
 }}
 
 )"
