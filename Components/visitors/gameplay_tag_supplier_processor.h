@@ -5,33 +5,41 @@
 #ifndef GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H
 #define GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H
 
+#include "flags.h"
+#include "gameplay_tag_to_fragment_visitor.h"
 #include "../tag_node_tree_visitor.h"
 
-class gameplay_tag_supplier_processor : public tag_node_tree_visitor {
+class gameplay_tag_supplier_processor : public gameplay_tag_to_fragment_visitor {
 public:
 	gameplay_tag_supplier_processor(const fs::path &input_path, const std::string &_output_unit)
-		: tag_node_tree_visitor(input_path, _output_unit) {
+		: gameplay_tag_to_fragment_visitor(
+			input_path
+			, _output_unit
+			, "TagToFragmentDispatch.h"
+			, "SupplierAttributeTagList.h"
+			, "Fragments.h"
+			, ""
+			) {
+		flags = { visitor::flags::supplier_attribute};
 	}
 
-
-
-	bool visit_tree(const std::shared_ptr<TagNode>& root) override;
-
 protected:
-	void process_node(const TagNode &node) override;
+	void buffer_node_strings(const TagNode& node) override;
+
+	void write_fragments_file(const TagNode& node, std::ofstream& stream) const override;
+
+	void write_processor_header_file(const TagNode& node, std::ofstream& stream) const override;
+
+	void write_processor_cpp_file(const TagNode& node, std::ofstream& stream) const override;
+
+	std::string format_canonical_list(const std::string& underscore_list_buffer) const override;
+
+	std::string format_tag_to_dispatch() const override;
 
 private:
-	fs::path header_dir;
-	fs::path cpp_dir;
-	std::string includes_buffer;
+
 	std::string if_attribute_branches_buffer;
 	std::string if_archetypes_branches_buffer;
-	std::string underscore_list_buffer;
-	std::string csv_buffer;
-
-	bool conditionally_write_canonical_list() const;
-	bool conditionally_write_tag_to_dispatch() const;
-	bool write_csv_template() const;
 };
 
 #endif //GAMEPLAY_TAG_SUPPLIER_PROCESSOR_H

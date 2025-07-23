@@ -4,6 +4,7 @@
 
 #ifndef GAMEPLAY_TAG_SCALAR_FIELD_ACCUMULATOR_H
 #define GAMEPLAY_TAG_SCALAR_FIELD_ACCUMULATOR_H
+#include "flags.h"
 #include "gameplay_tag_to_fragment_visitor.h"
 #include "../tag_node_tree_visitor.h"
 
@@ -20,6 +21,7 @@ public:
 		, "FieldAccumulator"
 		)
 	{
+		flags = {visitor::flags::scalar_field};
 	}
 
 protected:
