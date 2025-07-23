@@ -42,19 +42,23 @@ bool gameplay_tag_to_fragment_visitor::visit_tree(const std::shared_ptr<TagNode>
 }
 
 void gameplay_tag_to_fragment_visitor::process_node(const TagNode& node) {
-	auto fragment_file_paths = make_file_paths(node);
-
-	auto [fragments_file, header_file, cpp_file] = open_files(fragment_file_paths);
+	auto [fragments, header, cpp] = make_file_paths(node);
 
 	buffer_node_strings(node);
 
 	// TODO: better way to opt out of additional fragment file creation.
-	if (fragments_file) {
-		if (!fragments_header_suffix.empty()) {
+	if (!fragments_header_suffix.empty()) {
+		auto fragments_file = std::ofstream{fragments};
+
+		if (fragments_file) {
 			write_fragments_file(node, fragments_file);
 		}
+
 		fragments_file.close();
 	}
+
+	std::ofstream header_file{header};
+	std::ofstream cpp_file{cpp};
 
 	if (header_file) {
 		write_processor_header_file(node, header_file);
@@ -101,10 +105,3 @@ fragment_file_paths gameplay_tag_to_fragment_visitor::make_file_paths(const TagN
 	};
 }
 
-fragment_files gameplay_tag_to_fragment_visitor::open_files(const fragment_file_paths& fragment_file_paths) {
-	return {
-		std::ofstream{fragment_file_paths.fragments},
-		std::ofstream{fragment_file_paths.header},
-		std::ofstream{fragment_file_paths.cpp},
-	};
-}

@@ -32,6 +32,8 @@ protected:
 	void write_processor_cpp_file(const TagNode& node, std::ofstream& stream) const override;
 
 	std::string format_canonical_list(const std::string& underscore_list_buffer) const override;
+
+	std::string format_tag_to_dispatch() const override;
 };
 
 

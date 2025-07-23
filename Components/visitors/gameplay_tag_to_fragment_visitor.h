@@ -74,7 +74,6 @@ protected:
 private:
 	fragment_file_paths make_file_paths(const TagNode& node);
 
-	fragment_files open_files(const fragment_file_paths& fragment_file_paths);
 };
 
 

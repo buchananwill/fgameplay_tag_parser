@@ -9,6 +9,7 @@
 
 #include "Components/visitors/gameplay_tag_display_data.h"
 #include "Components/gameplay_tag_tree_parser.h"
+#include "Components/visitors/gameplay_tag_apply_field_to_attribute.h"
 #include "Components/visitors/gameplay_tag_scalar_field_accumulator.h"
 #include "Components/visitors/gameplay_tag_supplier_processor.h"
 #include "Components/visitors/gameplay_tag_visitor.h"
@@ -40,6 +41,7 @@ int main(int argc, char *argv[]) {
 	gen.tree_visitors.emplace_back(std::make_unique<gameplay_tag_display_data>(gameplay_tag_display_data{inputPath, output_path}));
 	gen.tree_visitors.emplace_back(std::make_unique<gameplay_tag_supplier_processor>(input_path, output_path));
 	gen.tree_visitors.emplace_back(std::make_unique<gameplay_tag_scalar_field_accumulator>(input_path, output_path));
+	gen.tree_visitors.emplace_back(std::make_unique<gameplay_tag_apply_field_to_attribute>(input_path, output_path));
 
 	if (!gen.parse_from_file_path(inputPath)) {
 		return 2;

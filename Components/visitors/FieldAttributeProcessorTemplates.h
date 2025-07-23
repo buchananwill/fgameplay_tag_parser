@@ -38,6 +38,8 @@ protected:
 
 private:
 	FMassEntityQuery EntityQuery;
+	double FieldInflectionVariable{{1}};
+
 }};
 )"
 	};
@@ -53,6 +55,7 @@ private:
 #include "{0}Fragments.h"
 #include "EconomicSystem/SupplierFragments/ExtrinsicAttributeUpdate.h"
 #include "MassSignalSubsystem.h"
+#include "Buildables/BuildableGameplayTags.h"
 #include "Mass/Globals.h"
 #include "Mass/Signals.h"
 
