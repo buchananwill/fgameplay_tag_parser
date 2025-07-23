@@ -32,15 +32,14 @@ public:
 		, const std::string& fragment_dispatch_header
 		, const std::string& tag_list_header
 		, const std::string& fragments_header_suffix
-		, const std::string& processor_header_suffix
-		, const std::string& processor_cpp_suffix
+		, const std::string& processor_name
 		)
 		: tag_node_tree_visitor(input_path, _output_unit),
 		  tag_to_fragment_dispatch_header(fragment_dispatch_header),
 		  tag_list_header(tag_list_header),
 		  fragments_header_suffix(fragments_header_suffix),
-		  processor_header_suffix(processor_header_suffix),
-		  processor_cpp_suffix(processor_cpp_suffix) {
+		  processor_name(processor_name) {
+		generated_dir = input_path.parent_path() / "Generated";
 	}
 
 	bool visit_tree(const std::shared_ptr<TagNode> &root) override;
@@ -56,8 +55,7 @@ protected:
 	std::string tag_to_fragment_dispatch_header;
 	std::string tag_list_header;
 	std::string fragments_header_suffix;
-	std::string processor_header_suffix;
-	std::string processor_cpp_suffix;
+	std::string processor_name;
 
 	virtual void buffer_node_strings(const TagNode& node) = 0;
 	virtual void write_fragments_file(const TagNode& node, std::ofstream& stream) const = 0;

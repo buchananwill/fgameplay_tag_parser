@@ -92,8 +92,8 @@ bool gameplay_tag_to_fragment_visitor::conditionally_write_tag_to_dispatch() con
 fragment_file_paths gameplay_tag_to_fragment_visitor::make_file_paths(const TagNode &node) {
 	return {
 		generated_dir / (node.Name + fragments_header_suffix),
-		generated_dir / (node.Name + processor_header_suffix),
-		generated_dir / (node.Name + processor_cpp_suffix)
+		generated_dir / (node.Name + processor_name + "Processor.h"),
+		generated_dir / (node.Name + processor_name + "Processor.cpp")
 	};
 }
 
