@@ -32,9 +32,11 @@ protected:
 	std::vector<std::string> segments;
 	fs::path input_path;
 	std::string output_unit;
+	std::vector<std::string> flags;
 
 	bool visit_node(const std::shared_ptr<TagNode> &node, const std::shared_ptr<TagNode> &root);
-	virtual void process_node(const TagNode &node) = 0;
+	bool should_process_node(const TagNode& node) const;
+	virtual void process_node(const TagNode& node) = 0;
 	virtual void before_leaving_node(const std::shared_ptr<TagNode>& node, const std::shared_ptr<TagNode>& root);
 
 

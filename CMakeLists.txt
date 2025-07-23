@@ -21,6 +21,8 @@ add_executable(FGameplayTagParser main.cpp
         Components/visitors/SupplierAttributeFormatTemplates.h
         Components/visitors/gameplay_tag_scalar_field_accumulator.cpp
         Components/visitors/gameplay_tag_scalar_field_accumulator.h
-        Components/visitors/ScalarFieldFormatTemplate.h
+        Components/visitors/ScalarFieldFormatTemplates.h
+        Components/visitors/gameplay_tag_to_fragment_visitor.cpp
+        Components/visitors/gameplay_tag_to_fragment_visitor.h
 )
 

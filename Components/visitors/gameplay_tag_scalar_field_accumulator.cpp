@@ -16,11 +16,8 @@
 using namespace Templates::ScalarField;
 
 bool gameplay_tag_scalar_field_accumulator::visit_tree(const std::shared_ptr<TagNode> &root) {
-	header_dir = input_path.parent_path() / "Public";
-	cpp_dir = input_path.parent_path() / "Private";
 
-	fs::create_directories(header_dir);
-	fs::create_directories(cpp_dir);
+	fs::create_directories(generated_dir);
 
 	if (!tag_node_tree_visitor::visit_tree(root)) {
 		return false;
@@ -41,9 +38,9 @@ void gameplay_tag_scalar_field_accumulator::process_node(const TagNode &node) {
 		return;
 	}
 
-	auto fragments_file_path = header_dir / (node.Name + "ScalarFieldFragments.h");
-	auto header_file_path = header_dir / (node.Name + "FieldAccumulatorProcessor.h");
-	auto cpp_file_path = cpp_dir / (node.Name + "FieldAccumulatorProcessor.cpp");
+	auto fragments_file_path = generated_dir / (node.Name + fragments_header_suffix);
+	auto header_file_path = generated_dir / (node.Name + processor_header_suffix);
+	auto cpp_file_path = generated_dir / (node.Name + processor_cpp_suffix);
 
 	std::ofstream fragments_file(fragments_file_path);
 	std::ofstream header_file(header_file_path);
@@ -86,7 +83,7 @@ bool gameplay_tag_scalar_field_accumulator::conditionally_write_canonical_list()
 		return false;
 	}
 
-	auto canonical_list_file_path = header_dir / "ScalarFieldTagList.h";
+	auto canonical_list_file_path = generated_dir / scalar_field_tag_list_header;
 
 	std::ofstream c_l_file(canonical_list_file_path);
 
@@ -105,7 +102,7 @@ bool gameplay_tag_scalar_field_accumulator::conditionally_write_tag_to_dispatch(
 		return false;
 	}
 
-	const auto tag_to_dispatch_file_path = header_dir / "TagToScalarFieldFragmentDispatch.h";
+	const auto tag_to_dispatch_file_path = generated_dir / tag_to_scalar_field_fragment_dispatch_header;
 
 	std::ofstream t_to_d_file(tag_to_dispatch_file_path);
 
