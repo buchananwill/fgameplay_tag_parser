@@ -15,10 +15,10 @@ public:
 	: gameplay_tag_to_fragment_visitor(
 		input_path
 		, _output_unit
+		, "FieldAccumulator"
+		, "ScalarFieldFragments.h"
 		, "TagToScalarFieldFragmentDispatch.h"
 		, "ScalarFieldTagList.h"
-		, "ScalarFieldFragments.h"
-		, "FieldAccumulator"
 		)
 	{
 		flags = {visitor::flags::scalar_field};

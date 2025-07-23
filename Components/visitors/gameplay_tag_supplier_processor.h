@@ -15,10 +15,10 @@ public:
 		: gameplay_tag_to_fragment_visitor(
 			input_path
 			, _output_unit
+			, ""
+			, "Fragments.h"
 			, "TagToFragmentDispatch.h"
 			, "SupplierAttributeTagList.h"
-			, "Fragments.h"
-			, ""
 			) {
 		flags = { visitor::flags::supplier_attribute};
 	}

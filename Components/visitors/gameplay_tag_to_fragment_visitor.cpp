@@ -8,8 +8,8 @@
 
 namespace {
 	bool conditionally_write_output_file(
-		const fs::path &dir,
-		const std::string &file_name,
+		const fs::path& dir,
+		const std::string& file_name,
 		auto with_file
 	) {
 		auto output_file_path = dir / file_name;
@@ -28,7 +28,7 @@ namespace {
 	}
 }
 
-bool gameplay_tag_to_fragment_visitor::visit_tree(const std::shared_ptr<TagNode> &root) {
+bool gameplay_tag_to_fragment_visitor::visit_tree(const std::shared_ptr<TagNode>& root) {
 	fs::create_directories(generated_dir);
 
 	if (!tag_node_tree_visitor::visit_tree(root)) {
@@ -41,55 +41,59 @@ bool gameplay_tag_to_fragment_visitor::visit_tree(const std::shared_ptr<TagNode>
 	return success;
 }
 
-void gameplay_tag_to_fragment_visitor::process_node(const TagNode &node) {
+void gameplay_tag_to_fragment_visitor::process_node(const TagNode& node) {
 	auto fragment_file_paths = make_file_paths(node);
 
 	auto [fragments_file, header_file, cpp_file] = open_files(fragment_file_paths);
 
-	if (!header_file || !cpp_file || !fragments_file) {
-		std::cout << "Couldn't open file(s)\n";
-		return;
-	}
-
 	buffer_node_strings(node);
 
-	write_fragments_file(node, fragments_file);
-	fragments_file.close();
+	// TODO: better way to opt out of additional fragment file creation.
+	if (fragments_file) {
+		if (!fragments_header_suffix.empty()) {
+			write_fragments_file(node, fragments_file);
+		}
+		fragments_file.close();
+	}
 
-	write_processor_header_file(node, header_file);
-	header_file.close();
+	if (header_file) {
+		write_processor_header_file(node, header_file);
+		header_file.close();
+	}
 
-	write_processor_cpp_file(node, cpp_file);
-	cpp_file.close();
+	if (cpp_file) {
+		write_processor_cpp_file(node, cpp_file);
+		cpp_file.close();
+	}
 }
 
 bool gameplay_tag_to_fragment_visitor::conditionally_write_canonical_list() const {
-	if (underscore_list_buffer.empty()) {
+	if (underscore_list_buffer.empty() || tag_list_header_name.empty()) {
 		return false;
 	}
 
 	return conditionally_write_output_file(
-		generated_dir, tag_list_header,
-		[this](std::ofstream &c_l_file) {
+		generated_dir, tag_list_header_name,
+		[this](std::ofstream& c_l_file) {
 			c_l_file << format_canonical_list(underscore_list_buffer);
 		});
 }
 
 bool gameplay_tag_to_fragment_visitor::conditionally_write_tag_to_dispatch() const {
-	if (includes_buffer.empty()) {
+	if (includes_buffer.empty() || tag_to_fragment_dispatch_header_name.empty()) {
 		return false;
 	}
 
 	return conditionally_write_output_file(
 		generated_dir,
-		tag_to_fragment_dispatch_header,
-		[this](std::ofstream &dispatch_file) {
+		tag_to_fragment_dispatch_header_name,
+		[this](std::ofstream& dispatch_file) {
 			dispatch_file << format_tag_to_dispatch();
 		}
 	);
 }
 
-fragment_file_paths gameplay_tag_to_fragment_visitor::make_file_paths(const TagNode &node) {
+fragment_file_paths gameplay_tag_to_fragment_visitor::make_file_paths(const TagNode& node) {
 	return {
 		generated_dir / (node.Name + fragments_header_suffix),
 		generated_dir / (node.Name + processor_name + "Processor.h"),
@@ -97,7 +101,7 @@ fragment_file_paths gameplay_tag_to_fragment_visitor::make_file_paths(const TagN
 	};
 }
 
-fragment_files gameplay_tag_to_fragment_visitor::open_files(const fragment_file_paths &fragment_file_paths) {
+fragment_files gameplay_tag_to_fragment_visitor::open_files(const fragment_file_paths& fragment_file_paths) {
 	return {
 		std::ofstream{fragment_file_paths.fragments},
 		std::ofstream{fragment_file_paths.header},
