@@ -23,8 +23,9 @@ void gameplay_tag_scalar_field_accumulator::buffer_node_strings(const TagNode& n
 	const auto underscore_name = helpers::join(segments, "_");
 	const auto dot_name = helpers::join(segments, ".");
 
+	if_emitter_branches_buffer.append(std::format(if_emitter_template, underscore_name, node.Name));
 	if_accumulator_branches_buffer.append(std::format(if_accumulator_template, underscore_name, node.Name));
-	if_field_emitters_branches_buffer.append(std::format(if_field_emitters_template, underscore_name, node.Name));
+	if_field_branches_buffer.append(std::format(if_field_template, underscore_name, node.Name));
 
 	if (!underscore_list_buffer.empty()) {
 		underscore_list_buffer.append(",\n            ");
@@ -52,5 +53,5 @@ std::string gameplay_tag_scalar_field_accumulator::format_canonical_list(
 
 std::string gameplay_tag_scalar_field_accumulator::format_tag_to_dispatch() const {
 	return std::format(tag_to_fragment_dispatch, includes_buffer, if_accumulator_branches_buffer,
-	                   if_field_emitters_branches_buffer);
+	                   if_field_branches_buffer, if_emitter_branches_buffer);
 }

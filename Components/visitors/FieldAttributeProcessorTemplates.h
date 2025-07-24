@@ -63,12 +63,13 @@ U{0}FieldAttributeProcessor::U{0}FieldAttributeProcessor(): EntityQuery(*this)
 {{
 	bAutoRegisterWithProcessingPhases = true;
 	ExecutionFlags = static_cast<uint8>(EProcessorExecutionFlags::AllWorldModes);
+	ExecutionOrder.ExecuteInGroup = Resort::Mass::ProcessorGroups::ScalarFieldToAttribute;
 	ExecutionOrder.ExecuteAfter.Add(Resort::Mass::ProcessorGroups::ScalarFieldAccumulation);
 }}
 
 void U{0}FieldAttributeProcessor::ConfigureQueries()
 {{
-	Resort::Mass::Economy::ConfigureApplyFieldQuery<F{0}Accumulator, F{0}Attribute>(EntityQuery);
+	Resort::Mass::Economy::ConfigureApplyFieldQuery<F{0}Accumulator, F{0}Attribute>(EntityQuery, ProcessorRequirements);
 }}
 
 void U{0}FieldAttributeProcessor::Initialize(UObject& Owner)

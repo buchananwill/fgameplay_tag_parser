@@ -26,8 +26,9 @@ public:
 
 protected:
 
+	std::string if_emitter_branches_buffer;
 	std::string if_accumulator_branches_buffer;
-	std::string if_field_emitters_branches_buffer;
+	std::string if_field_branches_buffer;
 
 	void buffer_node_strings(const TagNode &node) override;
 	void write_fragments_file(const TagNode &node, std::ofstream &stream) const override;

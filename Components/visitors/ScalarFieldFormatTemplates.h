@@ -8,7 +8,8 @@
 #include <string>
 
 namespace Templates::ScalarField {
-		inline constexpr std::format_string<const std::string &> fragments_template{R"(
+	inline constexpr std::format_string<const std::string&> fragments_template{
+		R"(
 /*
 * This file is auto-generated and should not be edited.
 */
@@ -19,6 +20,13 @@ namespace Templates::ScalarField {
 #include "{0}ScalarFieldFragments.generated.h"
 
 USTRUCT()
+struct F{0}Emitter : public FFieldEmitterFragment
+{{
+	GENERATED_BODY()
+
+}};
+
+USTRUCT()
 struct F{0}Accumulator : public FFieldAccumulatorFragment
 {{
 	GENERATED_BODY()
@@ -26,14 +34,15 @@ struct F{0}Accumulator : public FFieldAccumulatorFragment
 }};
 
 USTRUCT()
-struct F{0}FieldEmitters : public FScalarFieldEmitterSharedFragment
+struct F{0}Field : public FScalarFieldEmittersSharedFragment
 {{
 	GENERATED_BODY()
 
 }};
-)"};
+)"
+	};
 
-	inline constexpr std::format_string<const std::string &> header_template{
+	inline constexpr std::format_string<const std::string&> header_template{
 		R"(
 /*
 * This file is auto-generated and should not be edited.
@@ -67,7 +76,7 @@ private:
 )"
 	};
 
-	inline constexpr std::format_string<const std::string &> cpp_template{
+	inline constexpr std::format_string<const std::string&> cpp_template{
 		R"(
 /*
 * This file is auto-generated and should not be edited.
@@ -89,7 +98,7 @@ U{0}FieldAccumulatorProcessor::U{0}FieldAccumulatorProcessor(): EntityQuery(*thi
 
 void U{0}FieldAccumulatorProcessor::ConfigureQueries()
 {{
-	Resort::Mass::Economy::ConfigureAccumulationQuery<F{0}FieldEmitters, F{0}Accumulator>(EntityQuery);
+	Resort::Mass::Economy::ConfigureAccumulationQuery<F{0}Field, F{0}Accumulator>(EntityQuery);
 }}
 
 void U{0}FieldAccumulatorProcessor::Initialize(UObject& Owner)
@@ -102,15 +111,15 @@ void U{0}FieldAccumulatorProcessor::Initialize(UObject& Owner)
 void U{0}FieldAccumulatorProcessor::SignalEntities(FMassEntityManager& EntityManager, FMassExecutionContext& Context,
 	FMassSignalNameLookup& EntitySignals)
 {{
-	Resort::Mass::Economy::AccumulateField<F{0}FieldEmitters, F{0}Accumulator>(EntityManager, Context, EntityQuery);
+	Resort::Mass::Economy::AccumulateField<F{0}Field, F{0}Accumulator>(EntityManager, Context, EntityQuery);
 }}
 
 )"
 	};
 
-	inline constexpr std::format_string<const std::string &> include_wrapper{R"(#include "{0}ScalarFieldFragments.h")"};
+	inline constexpr std::format_string<const std::string&> include_wrapper{R"(#include "{0}ScalarFieldFragments.h")"};
 
-	inline constexpr std::format_string<const std::string &, const std::string &> if_accumulator_template{
+	inline constexpr std::format_string<const std::string&, const std::string&> if_accumulator_template{
 		R"(
 		if (Tag == {0})
 		{{
@@ -121,18 +130,29 @@ void U{0}FieldAccumulatorProcessor::SignalEntities(FMassEntityManager& EntityMan
 )"
 	};
 
-	inline constexpr std::format_string<const std::string &, const std::string &> if_field_emitters_template{
+	inline constexpr std::format_string<const std::string&, const std::string&> if_field_template{
 		R"(
 		if (Tag == {0})
 		{{
-			Functor.template operator()<F{1}FieldEmitters>();
+			Functor.template operator()<F{1}Field>();
 			return;
 		}}
 
 )"
 	};
 
-	inline constexpr std::format_string<const std::string &, const std::string &, const std::string &>
+	inline constexpr std::format_string<const std::string&, const std::string&> if_emitter_template{
+		R"(
+		if (Tag == {0})
+		{{
+			Functor.template operator()<F{1}Emitter>();
+			return;
+		}}
+
+)"
+	};
+
+	inline constexpr std::format_string<const std::string&, const std::string&, const std::string&, const std::string&>
 	tag_to_fragment_dispatch{
 		R"(
 /*
@@ -149,6 +169,17 @@ void U{0}FieldAccumulatorProcessor::SignalEntities(FMassEntityManager& EntityMan
 namespace Resort::GameplayTag
 {{
 	template <typename F>
+	void DispatchEmitter(const FGameplayTag& Tag, F&& Functor)
+	{{
+		{3}
+
+		{{
+			UE_LOGFMT(LogResort, Fatal, "Unconfigured FGameplayTag received: {{tag}}", Tag.GetTagName());
+			checkNoEntry()
+		}}
+	}}
+
+	template <typename F>
 	void DispatchAccumulator(const FGameplayTag& Tag, F&& Functor)
 	{{
 		{1}
@@ -160,7 +191,7 @@ namespace Resort::GameplayTag
 	}}
 
 	template <typename F>
-	void DispatchFieldEmitters(const FGameplayTag& Tag, F&& Functor)
+	void DispatchField(const FGameplayTag& Tag, F&& Functor)
 	{{
 		{2}
 
@@ -173,7 +204,7 @@ namespace Resort::GameplayTag
 )"
 	};
 
-	inline constexpr std::format_string<const std::string &> canonical_scalar_fields{
+	inline constexpr std::format_string<const std::string&> canonical_scalar_fields{
 		R"(
 /*
 * This file is auto-generated and should not be edited.
@@ -199,7 +230,6 @@ namespace Resort::Data
 
 )"
 	};
-
 }
 
 #endif //SCALARFIELDFORMATTEMPLATE_H

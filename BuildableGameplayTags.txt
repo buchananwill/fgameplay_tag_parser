@@ -24,6 +24,7 @@
 				Gondola # Spawns Gondola entities
 			TransformSet # Flags an asset as spawning via MassEntity with Spawn locations given by a FSubMeshTransformSet. Declared at the Buildable Component level.
 			Supplier # Participates in themarket economy as a Supplier.
+			ScalarFieldEmitter # Contributes to the strength of any ScalarField tags this Buildable has.
 		NoMesh # A component that does not spawn a direct mesh representation
 	Domain
 		Transport
