@@ -36,6 +36,7 @@ protected:
 
 	std::string format_tag_to_dispatch() const override;
 
+
 private:
 
 	std::string if_attribute_branches_buffer;

@@ -17,7 +17,7 @@ namespace {
 		std::ofstream output_filestream(output_file_path);
 
 		if (!output_filestream) {
-			std::cout << "Couldn't open tag to dispatch file\n";
+			std::cout << "Couldn't open file\n" << file_name;
 			return false;
 		}
 
@@ -37,6 +37,7 @@ bool gameplay_tag_to_fragment_visitor::visit_tree(const std::shared_ptr<TagNode>
 
 	bool success = conditionally_write_tag_to_dispatch();
 	success = conditionally_write_canonical_list() ? success : false;
+	success = conditionally_write_fragment_type_list() ? success : false;
 
 	return success;
 }
@@ -71,6 +72,10 @@ void gameplay_tag_to_fragment_visitor::process_node(const TagNode& node) {
 	}
 }
 
+std::string gameplay_tag_to_fragment_visitor::format_fragment_type_list() const {
+	return "";
+}
+
 bool gameplay_tag_to_fragment_visitor::conditionally_write_canonical_list() const {
 	if (underscore_list_buffer.empty() || tag_list_header_name.empty()) {
 		return false;
@@ -93,6 +98,20 @@ bool gameplay_tag_to_fragment_visitor::conditionally_write_tag_to_dispatch() con
 		tag_to_fragment_dispatch_header_name,
 		[this](std::ofstream& dispatch_file) {
 			dispatch_file << format_tag_to_dispatch();
+		}
+	);
+}
+
+bool gameplay_tag_to_fragment_visitor::conditionally_write_fragment_type_list() const {
+	if (fragment_type_list.empty()) {
+		return false;
+	}
+
+	return conditionally_write_output_file(
+		generated_dir,
+		fragment_type_list_header_name,
+		[this](std::ofstream& dispatch_file) {
+			dispatch_file << format_fragment_type_list();
 		}
 	);
 }

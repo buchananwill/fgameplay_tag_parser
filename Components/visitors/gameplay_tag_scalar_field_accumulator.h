@@ -19,6 +19,7 @@ public:
 		, "ScalarFieldFragments.h"
 		, "TagToScalarFieldFragmentDispatch.h"
 		, "ScalarFieldTagList.h"
+		, "ScalarFieldsTypeList.h"
 		)
 	{
 		flags = {visitor::flags::scalar_field};
@@ -35,8 +36,10 @@ protected:
 	void write_processor_header_file(const TagNode &node, std::ofstream &stream) const override;
 	void write_processor_cpp_file(const TagNode &node, std::ofstream &stream) const override;
 
+
 	std::string format_canonical_list(const std::string &underscore_list_buffer) const override;
 	std::string format_tag_to_dispatch() const override;
+	std::string format_fragment_type_list() const override;
 };
 
 

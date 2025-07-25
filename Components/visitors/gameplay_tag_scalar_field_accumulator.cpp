@@ -30,6 +30,12 @@ void gameplay_tag_scalar_field_accumulator::buffer_node_strings(const TagNode& n
 	if (!underscore_list_buffer.empty()) {
 		underscore_list_buffer.append(",\n            ");
 	}
+
+	if (!fragment_type_list.empty()) {
+		fragment_type_list.append(",\n        ");
+	}
+	// TODO: make mini-templates for the types themselves
+	fragment_type_list.append("F" + node.Name + "Accumulator");
 	underscore_list_buffer.append(underscore_name);
 }
 
@@ -54,4 +60,8 @@ std::string gameplay_tag_scalar_field_accumulator::format_canonical_list(
 std::string gameplay_tag_scalar_field_accumulator::format_tag_to_dispatch() const {
 	return std::format(tag_to_fragment_dispatch, includes_buffer, if_accumulator_branches_buffer,
 	                   if_field_branches_buffer, if_emitter_branches_buffer);
+}
+
+std::string gameplay_tag_scalar_field_accumulator::format_fragment_type_list() const {
+	return std::format(index_of_scalar_accumulator_type, fragment_type_list);
 }

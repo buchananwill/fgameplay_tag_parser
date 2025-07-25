@@ -230,6 +230,27 @@ namespace Resort::Data
 
 )"
 	};
+
+	inline constexpr std::format_string<const std::string&> index_of_scalar_accumulator_type{
+	R"(
+#pragma once
+#include "Core/TypeListIndex.h"
+#include "TagToScalarFieldFragmentDispatch.h"
+
+namespace Resort::Mass
+{{
+	using ScalarFieldAccumulatorTypes = TypeList<
+		{0}
+		>;
+
+	template <scalar_accumulator_fragment T>
+	consteval int32 TypeIndexOf()
+	{{
+		return IndexInList<T, ScalarFieldAccumulatorTypes>();
+	}}
+}}
+
+)"};
 }
 
 #endif //SCALARFIELDFORMATTEMPLATE_H
